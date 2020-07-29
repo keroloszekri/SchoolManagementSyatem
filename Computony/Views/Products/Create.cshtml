@@ -1,0 +1,118 @@
+﻿@model Computony.Models.Student
+@{
+    ViewBag.Title = "Create";
+}
+
+<link href="~/Scripts/Uploadify/uploadify.css" rel="stylesheet" />
+<script src="~/Scripts/Uploadify/jquery.uploadify.min.js"></script>
+<script src="~/Scripts/Tinymce/tinymce.min.js"></script>
+
+<script>
+    tinymce.init({
+        selector: '#Content',
+        height: 50,
+        theme: 'modern',
+        plugins: [
+            'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            'searchreplace wordcount visualblocks visualchars code fullscreen',
+            'insertdatetime media nonbreaking save table contextmenu directionality',
+            'emoticons template paste textcolor colorpicker textpattern imagetools'
+        ],
+        toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        toolbar2: 'print preview media | forecolor backcolor emoticons ',
+        image_advtab: true,
+
+
+    });</script>
+
+<script type="text/javascript">
+        $(function () {
+
+            $('#file_upload').uploadify({
+
+                'swf': '/Scripts/Uploadify/uploadify.swf',
+                'uploader': "@Url.Action("Upload", "News")",
+                'cancelImg': "@Url.Content("/Scripts/Uploadify/uploadify-cancel.png")",
+                'fileSizeLimit': '1MB', // Add Kb, MB, GB
+                'buttonText': 'Insert Images...', //Text for button
+                'queueSizeLimit': 10, // Max number of files allowed
+                'fileTypeDesc': 'Image Files',
+              'fileTypeExts': '*.gif; *.jpg; *.png', // File type allowed
+                'onUploadSuccess' : function(file, data, response) {
+                 tinyMCE.activeEditor.execCommand("mceInsertContent", true, "<img src='" + data + "' alt='Uploaded Image' class='img-responsive' />");
+                }
+
+            })
+
+        }
+);
+</script>
+
+
+<div class="panel panel-primary">
+    <div class="panel-heading panel-head">Add News</div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Number, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubCatID, "SubCatID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("SubCatID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SubCatID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Content, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-9">
+                    @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @row = 5 })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-12">
+                    <button class="btn btn-success" style="width:100%" id="btnSubmit" type="submit">
+                        Add
+                    </button>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

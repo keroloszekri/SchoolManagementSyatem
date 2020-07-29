@@ -1,0 +1,67 @@
+﻿<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("GoodsMart-Task", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+            </ul>
+
+            @foreach (var item in Computony.Controllers.HomeController.CatsList)
+            {
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">@item.Name <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            @foreach (var item2 in @item.SubCats)
+                            {
+                                @*<li>@Html.ActionLink(item2.Name.ToString(), "Details/" + @item2.ID, "SubCats")</li>*@
+                                <li><a style="cursor: pointer;" onclick="getDetails(@item2.ID)">@item2.Name</a></li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+
+            }
+
+            <ul class="nav navbar-nav" style="float:right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("School", "Index", "Cats")</li>
+                        <li>@Html.ActionLink("Class", "Index", "SubCats")</li>
+                        <li>@Html.ActionLink("Student","Index", "Products")</li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<div id="StudentDetailsPanel"></div>
+<div id="WaitDiv" style="display:none">Wait.....</div>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script>
+        function getDetails(stdid) {
+            //Call function ==>call url using Ajax "Jquery"
+            $.ajax({
+                url: '@Url.Action("ShowCourseDetails","Home")',
+                type: 'GET',
+                dataType: 'Html',
+                data: { id: stdid },
+                success: function (response) {
+                    $("#StudentDetailsPanel").html(response);
+                },error: function() {
+                }
+
+            });
+        }
+</script>

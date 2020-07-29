@@ -1,0 +1,50 @@
+﻿@model Computony.Models.Student
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<br />
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            ID
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ID)
+        </dd>
+
+        <dt>
+            Class Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubCat.Name)
+        </dd>
+
+        <dt>
+            Student Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            Student Skills
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Content)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Details/" + @Model.SubCatID, "SubCats")
+</p>
